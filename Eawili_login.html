@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#f6f5f0">
+	<title>Login | Western Pacific University</title>
+	<style>
+		:root {
+			color-scheme: light;
+			--navy: #202f7c;
+			--navy-deep: #18245f;
+			--gold: #d7ad00;
+			--ink: #202332;
+			--muted: #697080;
+			--line: #dedfe4;
+			--surface: #ffffff;
+			--canvas: #f6f5f0;
+			--focus: #458c83;
+		}
+
+		* { box-sizing: border-box; }
+		[hidden] { display: none !important; }
+
+		body {
+			min-width: 320px;
+			min-height: 100vh;
+			margin: 0;
+			color: var(--ink);
+			background:
+				linear-gradient(135deg, transparent 0 74%, rgba(215, 173, 0, 0.08) 74% 74.4%, transparent 74.4%),
+				var(--canvas);
+			font-family: "Segoe UI", Tahoma, sans-serif;
+		}
+
+		.site-header {
+			display: flex;
+			min-height: 106px;
+			align-items: center;
+			padding: 12px clamp(22px, 6vw, 88px);
+			background: var(--surface);
+			border-bottom: 1px solid rgba(32, 47, 124, 0.1);
+		}
+
+		.brand {
+			display: inline-flex;
+			align-items: center;
+			min-width: 0;
+			text-decoration: none;
+		}
+
+		.brand img {
+			display: block;
+			width: 144px;
+			height: 82px;
+			object-fit: contain;
+		}
+
+		.header-label {
+			margin-left: auto;
+			color: var(--muted);
+			font-size: 13px;
+		}
+
+		main {
+			display: grid;
+			min-height: calc(100vh - 106px);
+			place-items: center;
+			padding: 56px 24px 72px;
+		}
+
+		.login-layout {
+			width: min(100%, 460px);
+			overflow: hidden;
+			background: var(--surface);
+			border: 1px solid rgba(32, 47, 124, 0.1);
+			border-radius: 10px;
+			box-shadow: 0 24px 70px rgba(28, 37, 73, 0.1);
+			animation: arrive 480ms ease-out both;
+		}
+
+		.welcome-panel {
+			position: relative;
+			display: flex;
+			min-height: 540px;
+			flex-direction: column;
+			justify-content: center;
+			overflow: hidden;
+			padding: clamp(36px, 6vw, 76px);
+			color: white;
+			background: var(--navy);
+		}
+
+		.welcome-panel::before,
+		.welcome-panel::after {
+			position: absolute;
+			right: -112px;
+			bottom: -174px;
+			width: 390px;
+			height: 390px;
+			border: 1px solid rgba(226, 190, 31, 0.72);
+			border-radius: 50%;
+			content: "";
+			pointer-events: none;
+		}
+
+		.welcome-panel::after {
+			right: -72px;
+			bottom: -136px;
+			width: 310px;
+			height: 310px;
+			border-color: rgba(226, 190, 31, 0.42);
+		}
+
+		.eyebrow {
+			margin: 0 0 18px;
+			color: #f0d56a;
+			font-size: 11px;
+			font-weight: 700;
+			letter-spacing: 1.4px;
+			text-transform: uppercase;
+		}
+
+		h1 {
+			max-width: 390px;
+			margin: 0;
+			font-family: Georgia, "Times New Roman", serif;
+			font-size: clamp(38px, 5vw, 58px);
+			font-weight: 400;
+			line-height: 1.06;
+		}
+
+		.welcome-copy {
+			max-width: 350px;
+			margin: 20px 0 0;
+			color: rgba(255, 255, 255, 0.8);
+			font-size: 15px;
+			line-height: 1.7;
+		}
+
+		.gold-rule {
+			width: 54px;
+			height: 4px;
+			margin-top: 30px;
+			background: var(--gold);
+		}
+
+		.form-panel {
+			padding: clamp(32px, 5vw, 58px) clamp(26px, 4vw, 48px);
+		}
+
+		.form-logo {
+			display: block;
+			width: 160px;
+			height: 96px;
+			margin: 0 auto 18px;
+			object-fit: contain;
+		}
+
+		.form-panel h2 {
+			margin: 0;
+			color: var(--navy-deep);
+			font-family: Georgia, "Times New Roman", serif;
+			font-size: 30px;
+			font-weight: 400;
+		}
+
+		.form-intro {
+			margin: 9px 0 30px;
+			color: var(--muted);
+			font-size: 14px;
+			line-height: 1.5;
+		}
+
+		.field { margin-top: 19px; }
+
+		label {
+			display: block;
+			margin-bottom: 8px;
+			color: #303443;
+			font-size: 13px;
+			font-weight: 650;
+		}
+
+		input[type="email"],
+		input[type="password"],
+		input[type="text"] {
+			width: 100%;
+			min-height: 48px;
+			padding: 0 13px;
+			color: var(--ink);
+			background: white;
+			border: 1px solid var(--line);
+			border-radius: 5px;
+			font: inherit;
+			font-size: 14px;
+		}
+
+		input::placeholder { color: #9298a5; }
+
+		input:focus-visible,
+		button:focus-visible,
+		a:focus-visible {
+			outline: 3px solid rgba(69, 140, 131, 0.38);
+			outline-offset: 2px;
+		}
+
+		input:focus { border-color: var(--focus); }
+
+		.password-wrap { position: relative; }
+
+		.password-wrap input { padding-right: 72px; }
+
+		.show-password {
+			position: absolute;
+			top: 50%;
+			right: 10px;
+			padding: 6px;
+			transform: translateY(-50%);
+			color: var(--navy);
+			background: transparent;
+			border: 0;
+			border-radius: 3px;
+			cursor: pointer;
+			font: inherit;
+			font-size: 12px;
+			font-weight: 650;
+		}
+
+		.form-options {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 12px;
+			margin: 18px 0 24px;
+			font-size: 12px;
+		}
+
+		.remember {
+			display: inline-flex;
+			align-items: center;
+			gap: 8px;
+			margin: 0;
+			color: var(--muted);
+			font-weight: 400;
+			cursor: pointer;
+		}
+
+		.remember input {
+			width: 15px;
+			height: 15px;
+			margin: 0;
+			accent-color: var(--navy);
+		}
+
+		.text-link {
+			color: var(--navy);
+			font-weight: 650;
+			text-decoration-thickness: 1px;
+			text-underline-offset: 3px;
+		}
+
+		.create-account {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			gap: 5px;
+			margin: 20px 0 0;
+			color: var(--muted);
+			font-size: 13px;
+			text-align: center;
+		}
+
+		.submit-button {
+			display: flex;
+			width: 100%;
+			min-height: 49px;
+			align-items: center;
+			justify-content: center;
+			color: white;
+			background: var(--navy);
+			border: 0;
+			border-bottom: 3px solid var(--gold);
+			border-radius: 5px;
+			cursor: pointer;
+			font: inherit;
+			font-size: 14px;
+			font-weight: 700;
+			transition: background-color 160ms ease, transform 160ms ease;
+		}
+
+		.submit-button:hover {
+			background: var(--navy-deep);
+			transform: translateY(-1px);
+		}
+
+		.form-message {
+			min-height: 20px;
+			margin: 13px 0 0;
+			color: #8a4c26;
+			font-size: 12px;
+			line-height: 1.5;
+		}
+
+		.form-message:empty { display: none; }
+
+		.support-note {
+			margin: 26px 0 0;
+			padding-top: 18px;
+			color: var(--muted);
+			border-top: 1px solid #ececf0;
+			font-size: 12px;
+			line-height: 1.6;
+			text-align: center;
+		}
+
+		@keyframes arrive {
+			from { opacity: 0; transform: translateY(10px); }
+			to { opacity: 1; transform: translateY(0); }
+		}
+
+		@media (max-width: 760px) {
+			.site-header { min-height: 88px; }
+			.brand img { width: 126px; height: 68px; }
+			.header-label { font-size: 11px; }
+			main { min-height: calc(100vh - 88px); padding: 28px 16px 42px; }
+			.login-layout { max-width: 470px; grid-template-columns: 1fr; }
+			.welcome-panel { min-height: 230px; padding: 30px 32px; }
+			.welcome-panel::before { right: -185px; bottom: -260px; }
+			.welcome-panel::after { right: -154px; bottom: -230px; }
+			h1 { max-width: 340px; font-size: 40px; }
+			.welcome-copy { max-width: 340px; margin-top: 12px; font-size: 14px; }
+			.gold-rule { margin-top: 18px; }
+			.form-panel { padding: 32px; }
+		}
+
+		@media (max-width: 380px) {
+			.site-header { padding-inline: 16px; }
+			.header-label { max-width: 118px; text-align: right; }
+			.form-panel { padding: 28px 22px; }
+			.form-options { align-items: flex-start; }
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			*, *::before, *::after {
+				scroll-behavior: auto !important;
+				animation-duration: 0.01ms !important;
+				animation-iteration-count: 1 !important;
+				transition-duration: 0.01ms !important;
+			}
+		}
+	</style>
+</head>
+<body>
+	<header class="site-header">
+		<a class="brand" href="#" aria-label="Western Pacific University home">
+			<img src="WPU%20-%20Site%20New/WPU%20-%20Site%20New/wpu%20logoo.png" alt="Western Pacific University">
+		</a>
+		<span class="header-label">Login</span>
+	</header>
+
+	<main>
+		<div class="login-layout">
+			<section class="form-panel" aria-labelledby="login-title">
+				<img class="form-logo" src="WPU%20-%20Site%20New/WPU%20-%20Site%20New/wpu%20logoo.png" alt="Western Pacific University">
+				<h2 id="login-title">Login</h2>
+				<p class="form-intro">Enter your university account details below.</p>
+				<form id="login-form">
+					<div class="field">
+						<label for="identifier">Username/Email</label>
+						<input id="identifier" name="identifier" type="text" autocomplete="username" placeholder="Username or email" required>
+					</div>
+					<div id="registration-fields" hidden>
+						<div class="field">
+							<label for="register-username">Username</label>
+							<input id="register-username" name="username" type="text" autocomplete="username" minlength="3" maxlength="32" pattern="[A-Za-z0-9._-]+" disabled>
+						</div>
+						<div class="field">
+							<label for="register-email">Email address</label>
+							<input id="register-email" name="email" type="email" autocomplete="email" disabled>
+						</div>
+					</div>
+
+					<div class="field">
+						<label for="password">Password</label>
+						<div class="password-wrap">
+							<input id="password" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required>
+							<button class="show-password" id="toggle-password" type="button" aria-pressed="false">Show</button>
+						</div>
+					</div>
+
+					<div class="form-options" id="login-options">
+						<label class="remember" for="remember">
+							<input id="remember" name="remember" type="checkbox">
+							<span>Remember me</span>
+						</label>
+						<a class="text-link" id="forgot-password" href="#forgot-password">Forgot password?</a>
+					</div>
+
+					<button class="submit-button" id="submit-button" type="submit">Sign in to your account</button>
+					<p class="form-message" id="form-message" role="status" aria-live="polite"></p>
+				</form>
+				<p class="create-account">
+					<span id="account-prompt">I don't have an account.</span>
+					<a class="text-link" id="create-account" href="#create-account">Create account</a>
+				</p>
+				<p class="support-note">Use your university-issued account. For access assistance, contact the university help desk.</p>
+			</section>
+		</div>
+	</main>
+
+	<script>
+		const loginForm = document.querySelector("#login-form");
+		const passwordInput = document.querySelector("#password");
+		const togglePassword = document.querySelector("#toggle-password");
+		const formMessage = document.querySelector("#form-message");
+		const identifierInput = document.querySelector("#identifier");
+		const registrationFields = document.querySelector("#registration-fields");
+		const registrationUsername = document.querySelector("#register-username");
+		const registrationEmail = document.querySelector("#register-email");
+		const loginOptions = document.querySelector("#login-options");
+		const loginTitle = document.querySelector("#login-title");
+		const formIntro = document.querySelector(".form-intro");
+		const submitButton = document.querySelector("#submit-button");
+		const accountPrompt = document.querySelector("#account-prompt");
+		const accountLink = document.querySelector("#create-account");
+		const headerLabel = document.querySelector(".header-label");
+		let registrationMode = false;
+
+		togglePassword.addEventListener("click", () => {
+			const showingPassword = passwordInput.type === "password";
+			passwordInput.type = showingPassword ? "text" : "password";
+			togglePassword.textContent = showingPassword ? "Hide" : "Show";
+			togglePassword.setAttribute("aria-pressed", String(showingPassword));
+		});
+
+		function setRegistrationMode(enabled) {
+			registrationMode = enabled;
+			loginTitle.textContent = enabled ? "Create account" : "Login";
+			formIntro.textContent = enabled ? "Create your university account." : "Enter your university account details below.";
+			headerLabel.textContent = enabled ? "Create account" : "Login";
+			submitButton.textContent = enabled ? "Create account" : "Sign in to your account";
+			accountPrompt.textContent = enabled ? "Already have an account?" : "I don't have an account.";
+			accountLink.textContent = enabled ? "Login" : "Create account";
+			identifierInput.closest(".field").hidden = enabled;
+			identifierInput.disabled = enabled;
+			identifierInput.required = !enabled;
+			registrationFields.hidden = !enabled;
+			registrationUsername.disabled = !enabled;
+			registrationUsername.required = enabled;
+			registrationEmail.disabled = !enabled;
+			registrationEmail.required = enabled;
+			loginOptions.hidden = enabled;
+			passwordInput.autocomplete = enabled ? "new-password" : "current-password";
+			passwordInput.minLength = enabled ? 12 : 0;
+			formMessage.textContent = "";
+		}
+
+		accountLink.addEventListener("click", (event) => {
+			event.preventDefault();
+			setRegistrationMode(!registrationMode);
+			(registrationMode ? registrationUsername : identifierInput).focus();
+		});
+
+		document.querySelector("#forgot-password").addEventListener("click", (event) => {
+			event.preventDefault();
+			formMessage.textContent = "Password recovery is not connected yet. Please contact the university help desk.";
+		});
+
+		loginForm.addEventListener("submit", async (event) => {
+			event.preventDefault();
+			formMessage.textContent = "";
+
+			const endpoint = registrationMode ? "/api/register" : "/api/login";
+			const payload = registrationMode
+				? { username: registrationUsername.value, email: registrationEmail.value, password: passwordInput.value }
+				: { identifier: identifierInput.value, password: passwordInput.value };
+
+			try {
+				const response = await fetch(endpoint, {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify(payload)
+				});
+				const result = await response.json().catch(() => ({}));
+
+				if (!response.ok) throw new Error(result.error || "The request could not be completed.");
+
+				const accountWasCreated = registrationMode;
+				if (accountWasCreated) setRegistrationMode(false);
+				formMessage.textContent = accountWasCreated
+					? `Account created. Welcome, ${result.user.username}.`
+					: `Welcome back, ${result.user.username}.`;
+				passwordInput.value = "";
+			} catch (error) {
+				formMessage.textContent = error.message || "Unable to connect to the login server.";
+			}
+		});
+	</script>
+</body>
+</html>
